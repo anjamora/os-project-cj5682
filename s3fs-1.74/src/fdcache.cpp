@@ -1280,9 +1280,9 @@ int myCrypto::encryptFile(int fd){
   }//catch
 
   //cipherPretty
-  StringSource(etContents, true, new HexEncoder(new StringSink(epContents)));
+  //StringSource(etContents, true, new HexEncoder(new StringSink(epContents)));
 
-  ebContents = epIv + epContents;
+  ebContents = epIv + etContents;
   const char *bufContents = ebContents.c_str();
   ssize_t wLen = pwrite(fd, bufContents, ebContents.length(), 0);
   ftruncate(fd, ebContents.length());
@@ -1290,7 +1290,7 @@ int myCrypto::encryptFile(int fd){
   //DEBUGGER
   ofstream myFile;
   myFile.open("/home/anjamora/Desktop/debug-enc-func.txt");
-  myFile << "epContents: " << epContents << endl;
+  myFile << "etContents: " << etContents << endl;
   myFile << "epIv: " << epIv;
   myFile.close();
   //DEBUGGER END
@@ -1319,7 +1319,7 @@ int myCrypto::decryptFile(int fd){
   const byte* dbyteIV = (const byte*) duIv.data();
 
   //Contents
-  StringSource(epContents, true, new HexDecoder(new StringSink(duContents)));
+  //StringSource(epContents, true, new HexDecoder(new StringSink(duContents)));
 
   
 
@@ -1327,14 +1327,14 @@ int myCrypto::decryptFile(int fd){
   //try{
   CBC_Mode< AES >::Decryption d;
   d.SetKeyWithIV(dbyteKey, sizeof(dbyteKey)*2, dbyteIV);
-  StringSource de(duContents, true, new StreamTransformationFilter(d, new StringSink (dtContents)));
+  StringSource de(epContents, true, new StreamTransformationFilter(d, new StringSink (dtContents)));
   //}catch(const CryptoPP::Exception& e){}
 
 
   string test = dtContents;
   const char *dwContents = test.c_str();
   ssize_t wLen = pwrite(fd, dwContents, test.length(), 0);
-  ftruncate(fd,test.length());
+  ftruncate(fd, test.length());
 
   //DEBUGGER
   ofstream myFile;
