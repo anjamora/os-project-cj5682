@@ -3550,7 +3550,6 @@ $as_echo "yes" >&6; }
 fi
 
 DEPS_LIBS="$DEPS_LIBS-lpthread -lcrypto++"
-DEPS_CFLAGS="$DEPS_CFLAGS-I/usr/include/cryptopp" 
 
 
 ac_ext=c

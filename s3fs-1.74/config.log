@@ -124,18 +124,18 @@ configure:3454: $? = 0
 configure:3467: $PKG_CONFIG --exists --print-errors "fuse >= 2.8.4 libcurl >= 7.0 libxml-2.0 >= 2.6 libcrypto >= 0.9"
 configure:3470: $? = 0
 configure:3547: result: yes
-configure:3600: checking for gcc
-configure:3616: found /usr/bin/gcc
-configure:3627: result: gcc
-configure:3859: checking for C compiler version
-configure:3867: gcc --version >&5
+configure:3604: checking for gcc
+configure:3620: found /usr/bin/gcc
+configure:3631: result: gcc
+configure:3863: checking for C compiler version
+configure:3871: gcc --version >&5
 gcc (Ubuntu 4.8.2-19ubuntu1) 4.8.2
 Copyright (C) 2013 Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 
-configure:3871: $? = 0
-configure:3878: gcc -v >&5
+configure:3875: $? = 0
+configure:3882: gcc -v >&5
 Using built-in specs.
 COLLECT_GCC=gcc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/4.8/lto-wrapper
@@ -143,41 +143,41 @@ Target: x86_64-linux-gnu
 Configured with: ../src/configure -v --with-pkgversion='Ubuntu 4.8.2-19ubuntu1' --with-bugurl=file:///usr/share/doc/gcc-4.8/README.Bugs --enable-languages=c,c++,java,go,d,fortran,objc,obj-c++ --prefix=/usr --program-suffix=-4.8 --enable-shared --enable-linker-build-id --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.8 --libdir=/usr/lib --enable-nls --with-sysroot=/ --enable-clocale=gnu --enable-libstdcxx-debug --enable-libstdcxx-time=yes --enable-gnu-unique-object --disable-libmudflap --enable-plugin --with-system-zlib --disable-browser-plugin --enable-java-awt=gtk --enable-gtk-cairo --with-java-home=/usr/lib/jvm/java-1.5.0-gcj-4.8-amd64/jre --enable-java-home --with-jvm-root-dir=/usr/lib/jvm/java-1.5.0-gcj-4.8-amd64 --with-jvm-jar-dir=/usr/lib/jvm-exports/java-1.5.0-gcj-4.8-amd64 --with-arch-directory=amd64 --with-ecj-jar=/usr/share/java/eclipse-ecj.jar --enable-objc-gc --enable-multiarch --disable-werror --with-arch-32=i686 --with-abi=m64 --with-multilib-list=m32,m64,mx32 --with-tune=generic --enable-checking=release --build=x86_64-linux-gnu --host=x86_64-linux-gnu --target=x86_64-linux-gnu
 Thread model: posix
 gcc version 4.8.2 (Ubuntu 4.8.2-19ubuntu1) 
-configure:3882: $? = 0
-configure:3889: gcc -V >&5
+configure:3886: $? = 0
+configure:3893: gcc -V >&5
 gcc: error: unrecognized command line option '-V'
 gcc: fatal error: no input files
 compilation terminated.
-configure:3893: $? = 4
-configure:3896: checking whether we are using the GNU C compiler
-configure:3925: gcc -c   conftest.c >&5
-configure:3932: $? = 0
-configure:3949: result: yes
-configure:3958: checking whether gcc accepts -g
-configure:3988: gcc -c -g  conftest.c >&5
-configure:3995: $? = 0
-configure:4096: result: yes
-configure:4113: checking for gcc option to accept ISO C89
-configure:4187: gcc  -c -g -O2  conftest.c >&5
-configure:4194: $? = 0
-configure:4217: result: none needed
-configure:4237: checking dependency style of gcc
-configure:4347: result: gcc3
-configure:4367: checking for malloc_trim
-configure:4423: gcc -o conftest -g -O2   conftest.c  >&5
-configure:4430: $? = 0
-configure:4452: result: yes
-configure:4465: checking Initializing libcurl build with NSS
-configure:4485: result: no
-configure:4497: checking how to run the C preprocessor
-configure:4537: gcc -E  conftest.c
-configure:4544: $? = 0
-configure:4575: gcc -E  conftest.c
+configure:3897: $? = 4
+configure:3900: checking whether we are using the GNU C compiler
+configure:3929: gcc -c   conftest.c >&5
+configure:3936: $? = 0
+configure:3953: result: yes
+configure:3962: checking whether gcc accepts -g
+configure:3992: gcc -c -g  conftest.c >&5
+configure:3999: $? = 0
+configure:4100: result: yes
+configure:4117: checking for gcc option to accept ISO C89
+configure:4191: gcc  -c -g -O2  conftest.c >&5
+configure:4198: $? = 0
+configure:4221: result: none needed
+configure:4241: checking dependency style of gcc
+configure:4351: result: gcc3
+configure:4371: checking for malloc_trim
+configure:4427: gcc -o conftest -g -O2   conftest.c  >&5
+configure:4434: $? = 0
+configure:4456: result: yes
+configure:4469: checking Initializing libcurl build with NSS
+configure:4489: result: no
+configure:4501: checking how to run the C preprocessor
+configure:4541: gcc -E  conftest.c
+configure:4548: $? = 0
+configure:4579: gcc -E  conftest.c
 conftest.c:11:28: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
                             ^
 compilation terminated.
-configure:4582: $? = 1
+configure:4586: $? = 1
 configure: failed program was:
 | /* confdefs.h.  */
 | #define PACKAGE_NAME "s3fs"
@@ -190,15 +190,15 @@ configure: failed program was:
 | #define HAVE_MALLOC_TRIM 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:4615: result: gcc -E
-configure:4644: gcc -E  conftest.c
-configure:4651: $? = 0
-configure:4682: gcc -E  conftest.c
+configure:4619: result: gcc -E
+configure:4648: gcc -E  conftest.c
+configure:4655: $? = 0
+configure:4686: gcc -E  conftest.c
 conftest.c:11:28: fatal error: ac_nonexistent.h: No such file or directory
  #include <ac_nonexistent.h>
                             ^
 compilation terminated.
-configure:4689: $? = 1
+configure:4693: $? = 1
 configure: failed program was:
 | /* confdefs.h.  */
 | #define PACKAGE_NAME "s3fs"
@@ -211,55 +211,55 @@ configure: failed program was:
 | #define HAVE_MALLOC_TRIM 1
 | /* end confdefs.h.  */
 | #include <ac_nonexistent.h>
-configure:4729: checking for grep that handles long lines and -e
-configure:4789: result: /bin/grep
-configure:4794: checking for egrep
-configure:4858: result: /bin/grep -E
-configure:4863: checking for ANSI C header files
-configure:4893: gcc -c -g -O2  conftest.c >&5
-configure:4900: $? = 0
-configure:4999: gcc -o conftest -g -O2   conftest.c  >&5
-configure:5003: $? = 0
-configure:5009: ./conftest
-configure:5013: $? = 0
-configure:5031: result: yes
-configure:5055: checking for sys/types.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for sys/stat.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for stdlib.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for string.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for memory.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for strings.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for inttypes.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for stdint.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5055: checking for unistd.h
-configure:5076: gcc -c -g -O2  conftest.c >&5
-configure:5083: $? = 0
-configure:5100: result: yes
-configure:5912: creating ./config.status
+configure:4733: checking for grep that handles long lines and -e
+configure:4793: result: /bin/grep
+configure:4798: checking for egrep
+configure:4862: result: /bin/grep -E
+configure:4867: checking for ANSI C header files
+configure:4897: gcc -c -g -O2  conftest.c >&5
+configure:4904: $? = 0
+configure:5003: gcc -o conftest -g -O2   conftest.c  >&5
+configure:5007: $? = 0
+configure:5013: ./conftest
+configure:5017: $? = 0
+configure:5035: result: yes
+configure:5059: checking for sys/types.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for sys/stat.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for stdlib.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for string.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for memory.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for strings.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for inttypes.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for stdint.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5059: checking for unistd.h
+configure:5080: gcc -c -g -O2  conftest.c >&5
+configure:5087: $? = 0
+configure:5104: result: yes
+configure:5916: creating ./config.status
 
 ## ---------------------- ##
 ## Running config.status. ##
@@ -276,11 +276,11 @@ generated by GNU Autoconf 2.63.  Invocation command line was
 
 on ubuntu
 
-config.status:719: creating Makefile
-config.status:719: creating src/Makefile
-config.status:719: creating test/Makefile
-config.status:719: creating doc/Makefile
-config.status:930: executing depfiles commands
+config.status:720: creating Makefile
+config.status:720: creating src/Makefile
+config.status:720: creating test/Makefile
+config.status:720: creating doc/Makefile
+config.status:931: executing depfiles commands
 
 ## ---------------- ##
 ## Cache variables. ##
@@ -355,14 +355,14 @@ pkg_cv_DEPS_LIBS='-pthread -lfuse -lcurl -lxml2 -lcrypto  '
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/anjamora/s3fs-1.74/missing --run aclocal-1.11'
+ACLOCAL='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/missing --run aclocal-1.11'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
-AMTAR='${SHELL} /home/anjamora/s3fs-1.74/missing --run tar'
-AUTOCONF='${SHELL} /home/anjamora/s3fs-1.74/missing --run autoconf'
-AUTOHEADER='${SHELL} /home/anjamora/s3fs-1.74/missing --run autoheader'
-AUTOMAKE='${SHELL} /home/anjamora/s3fs-1.74/missing --run automake-1.11'
+AMTAR='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/missing --run tar'
+AUTOCONF='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/missing --run autoconf'
+AUTOHEADER='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/missing --run autoheader'
+AUTOMAKE='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/missing --run automake-1.11'
 AWK='mawk'
 CC='gcc'
 CCDEPMODE='depmode=gcc3'
@@ -375,8 +375,8 @@ CXXFLAGS='-g -O2 -Wall -D_FILE_OFFSET_BITS=64'
 CYGPATH_W='echo'
 DEFS='-DPACKAGE_NAME=\"s3fs\" -DPACKAGE_TARNAME=\"s3fs\" -DPACKAGE_VERSION=\"1.74\" -DPACKAGE_STRING=\"s3fs\ 1.74\" -DPACKAGE_BUGREPORT=\"\" -DPACKAGE=\"s3fs\" -DVERSION=\"1.74\" -DHAVE_MALLOC_TRIM=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1'
 DEPDIR='.deps'
-DEPS_CFLAGS='-D_FILE_OFFSET_BITS=64 -I/usr/include/fuse -I/usr/include/libxml2  '
-DEPS_LIBS='-pthread -lfuse -lcurl -lxml2 -lcrypto  '
+DEPS_CFLAGS='-D_FILE_OFFSET_BITS=64 -I/usr/include/fuse -I/usr/include/libxml2  -I/usr/include/cryptopp'
+DEPS_LIBS='-pthread -lfuse -lcurl -lxml2 -lcrypto  -lpthread -lcrypto++'
 ECHO_C=''
 ECHO_N='-n'
 ECHO_T=''
@@ -391,7 +391,7 @@ LDFLAGS=''
 LIBOBJS=''
 LIBS=''
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /home/anjamora/s3fs-1.74/missing --run makeinfo'
+MAKEINFO='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/missing --run makeinfo'
 MKDIR_P='/bin/mkdir -p'
 NSPRCONFIG=''
 NSSCONFIG=''
@@ -441,7 +441,7 @@ host_vendor='unknown'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/anjamora/s3fs-1.74/install-sh'
+install_sh='${SHELL} /home/anjamora/project-repos/os-project-cj5682/s3fs-1.74/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'

@@ -17,6 +17,11 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
+//-----------------------------------------------------------------------------
+/////////////////////////////////////CODE INSERTED BY ANTHONY JAMORA START**
+//-----------------------------------------------------------------------------
+//Calling the necessary files needed to define our encryption/decryption functions
 #include "osrng.h"
 using CryptoPP::AutoSeededRandomPool;
 #include <cstdlib>
@@ -37,6 +42,10 @@ using CryptoPP::CBC_Mode;
 #include "files.h"
 using CryptoPP::FileSink;
 using CryptoPP::FileSource;
+//-----------------------------------------------------------------------------
+/////////////////////////////////////CODE INSERTED BY ANTHONY JAMORA END**
+//-----------------------------------------------------------------------------
+
 
 #include <stdio.h>
 #include <sys/stat.h>
@@ -840,18 +849,13 @@ int FdEntity::Load(off_t start, off_t size)
       }
 
       myCrypto::decryptFile(fd);
+
       // Set init flag
       pagelist.SetInit((*iter)->offset, static_cast<off_t>((*iter)->bytes), true);
     }
     PageList::FreeList(uninit_list);
   }
-  // //MYCODE
-  // string contentsIv = "This is written by Load";
-  // const char *bufContents = contentsIv.c_str();
-  // lseek(fd, 0, SEEK_SET);
-  // write(fd, bufContents, contentsIv.length());
-  // size = contentsIv.length();
-  // //MYCODE END
+
 
   return result;
 }
@@ -902,8 +906,8 @@ int FdEntity::RowFlush(const char* tpath, headers_t& meta, bool ow_sse_flg, bool
     // nothing to update.
     return 0;
   }
-  
   myCrypto::encryptFile(fd);
+
 
   /*
    * Make decision to do multi upload (or not) based upon file size
@@ -920,8 +924,6 @@ int FdEntity::RowFlush(const char* tpath, headers_t& meta, bool ow_sse_flg, bool
    * If file is > 20MB, then multipart will kick in
    */
 
-
-   //myCrypto::encryptFile(fd);
 
   if(pagelist.Size() > MAX_OBJECT_SIZE){ // 64GB - 1
     // close f ?
@@ -949,7 +951,9 @@ int FdEntity::RowFlush(const char* tpath, headers_t& meta, bool ow_sse_flg, bool
     result = s3fscurl.PutRequest(tpath ? tpath : path.c_str(), meta, fd, ow_sse_flg);
   }
 
+
   myCrypto::decryptFile(fd);
+
   // seek to head of file.
   if(0 == result && 0 != lseek(fd, 0, SEEK_SET)){
     DPRN("lseek error(%d)", errno);
@@ -987,13 +991,20 @@ ssize_t FdEntity::Read(char* bytes, off_t start, size_t size, bool force_load)
   {
     AutoLock auto_lock(&fdent_lock);
 
+//-----------------------------------------------------------------------------
+/////////////////////////////////////CODE INSERTED BY ANTHONY JAMORA START**
+//-----------------------------------------------------------------------------
+    //previously used to find assist in finding spots to insert decryption function
+
   //MYCODE
   // string contentsIv = "This is written by Read";
   // const char *bufContents = contentsIv.c_str();
   // lseek(fd, 0, SEEK_SET);
   // write(fd, bufContents, contentsIv.length());
   //MYCODE END
-
+//-----------------------------------------------------------------------------
+/////////////////////////////////////CODE INSERTED BY ANTHONY JAMORA END**
+//-----------------------------------------------------------------------------
 
     if(-1 == (rsize = pread(fd, bytes, size, start))){
       DPRN("pread failed. errno(%d)", errno);
@@ -1250,117 +1261,121 @@ bool FdManager::Close(FdEntity* ent)
   return false;
 }
 
+//-----------------------------------------------------------------------------
+/////////////////////////////////////CODE INSERTED BY ANTHONY JAMORA START**
+//-----------------------------------------------------------------------------
+
+//Our primary function used to encrypt our text before storing it locally.
+//This fucntion is called in a single location
 int myCrypto::encryptFile(int fd){
+  //Declaring Variables
   AutoSeededRandomPool prng;
   string epBytes, epKey, euKey,epIv, etContents, epContents, ebContents, dpKey, duKey, duIv, duContents, dtContents, dpContents, dbContents;
 
-  //GetData
-
-  //createKey
+  //Key Setup
   epKey = getKey();
   StringSource(epKey, true, new HexDecoder(new StringSink(euKey)));
   const byte* ebyteKey = (const byte*) euKey.data();
 
-  //createIV
+  //Iv Setup
   byte ebyteIv[AES::BLOCKSIZE];
   prng.GenerateBlock(ebyteIv, sizeof(ebyteIv));
   StringSource(ebyteIv, sizeof(ebyteIv), true, new HexEncoder(new StringSink(epIv)));
 
-
+  //Reading files to be encrypt
   epBytes = readFile(fd);
+
+  //Createcipher tool
   try{
-  //Createcipher
   CBC_Mode< AES >::Encryption e;
   e.SetKeyWithIV(ebyteKey, sizeof(ebyteKey)*2, ebyteIv);
   StringSource file(epBytes, true, new StreamTransformationFilter(e,new StringSink(etContents)));
-  }//try
-  catch( const CryptoPP::Exception& e ){
-    cerr << e.what() << endl;
-    exit(1);
-  }//catch
+  }
+  catch( const CryptoPP::Exception& e ){}
 
-  //cipherPretty
-  //StringSource(etContents, true, new HexEncoder(new StringSink(epContents)));
-
+  //creating buffer to write
   ebContents = epIv + etContents;
   const char *bufContents = ebContents.c_str();
+
+  //******This is where we are actually changing the file contents
   ssize_t wLen = pwrite(fd, bufContents, ebContents.length(), 0);
+  //attempt clear out any extra data or NULL variables left behind
   ftruncate(fd, ebContents.length());
-  
-  //DEBUGGER
-  ofstream myFile;
-  myFile.open("/home/anjamora/Desktop/debug-enc-func.txt");
-  myFile << "etContents: " << etContents << endl;
-  myFile << "epIv: " << epIv;
-  myFile.close();
-  //DEBUGGER END
   
   return 0;
 }
+
+//Our primary function used to decrypt our text before storing it locally.
+//This fucntion is called in two different locations
 int myCrypto::decryptFile(int fd){
 
+  //declaring strings
   string dIvContents, dpKey, duKey, duIv, duContents, dtContents, dpContents, dbContents, epContents, epIv;
 
-  //Read
+  //Use the function included in this myCrypto class
   dIvContents = readFile(fd);
-  //split Iv
+  //split Iv from Contents and vice versa
   epIv = dIvContents.substr(0,32);
-  //split Contents
   epContents = dIvContents.substr(epIv.length());
 
-
-
-  //Key
+  //Key Setup
   dpKey = getKey();
   StringSource(dpKey, true, new HexDecoder(new StringSink(duKey)));
   const byte* dbyteKey = (const byte*) duKey.data();
-  //Iv
+  //Iv Setup
   StringSource(epIv, true, new HexDecoder(new StringSink(duIv)));
   const byte* dbyteIV = (const byte*) duIv.data();
 
-  //Contents
+  //Contents - This was used when I was previously storing the contents in pretty format
   //StringSource(epContents, true, new HexDecoder(new StringSink(duContents)));
 
   
-
-  //Setdecryption
-  //try{
+  //Setdecryptor tool
+  try{
   CBC_Mode< AES >::Decryption d;
   d.SetKeyWithIV(dbyteKey, sizeof(dbyteKey)*2, dbyteIV);
   StringSource de(epContents, true, new StreamTransformationFilter(d, new StringSink (dtContents)));
-  //}catch(const CryptoPP::Exception& e){}
+  }catch(const CryptoPP::Exception& e){}
 
 
+  //creating buffer to write
   string test = dtContents;
   const char *dwContents = test.c_str();
+
+  //******This is where we are actually changing the file contents
   ssize_t wLen = pwrite(fd, dwContents, test.length(), 0);
+  //attempt clear out any extra data or NULL variables left behind
   ftruncate(fd, test.length());
 
+  //This was used for debugging purposes, explained further in the report
   //DEBUGGER
-  ofstream myFile;
-  myFile.open("/home/anjamora/Desktop/debug-dec-func.txt");
-  myFile << "epContents: " << epContents << endl;
-  myFile << "epIv: " << epIv << endl;
-  //myFile << "dwContents: " << dwContents << endl;
-  myFile.close();
+  // ofstream myFile;
+  // myFile.open("/home/anjamora/Desktop/debug-dec-func.txt");
+  // myFile << "epContents: " << epContents << endl;
+  // myFile << "epIv: " << epIv << endl;
+  // //myFile << "dwContents: " << dwContents << endl;
+  // myFile.close();
   //DEBUGGER END
 
   return 0;
 }
 
-
+//Read a file descriptor and return its content in string format
+//called in both the encryptFile(), and decryptFile() functions
 string myCrypto::readFile(int fd){
-  int flength = lseek(fd, 0, SEEK_END);
-  unsigned char* fcontents;
-  fcontents = (unsigned char*) calloc(flength, sizeof(char));
-  pread(fd, fcontents, flength, 0);
-  string sContents(reinterpret_cast<char*>(fcontents), flength);
+  int fdLen = lseek(fd, 0, SEEK_END);
+  unsigned char fdBuffer[fdLen];
+  pread(fd, fdBuffer, fdLen, 0);
+  string sContents(reinterpret_cast<char*>(fdBuffer), fdLen);
 
   return sContents;
 }
 
+//Retrieve key from file stored in the root directory
+//called in both the encryptFile(), and decryptFile() functions
+//Uses a high level strategy to reading files.
 string myCrypto::getKey(){
-  string fileDir = "/home/anjamora/osProject/myBucketKey.txt";
+  string fileDir = "/myBucketKey.txt";
   string key;
 
   ifstream myfile;
@@ -1371,3 +1386,6 @@ string myCrypto::getKey(){
 }
 
 
+//-----------------------------------------------------------------------------
+/////////////////////////////////////CODE INSERTED BY ANTHONY JAMORA END**
+//-----------------------------------------------------------------------------
